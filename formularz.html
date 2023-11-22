@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator numeru PESEL</title>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <p>Wybierz płeć</p>
+
+    <input type="radio" id="plecM" name="plec" value="M">Mężczyzna
+    <input type="radio" id="plecK" name="plec" value="K">Kobieta
+
+    <p>Podaj datę urodzenia</p>
+
+    <input type="number" name="" id="InputMonth" min="1" max="12" placeholder="Miesiąc"> miesiąc
+    <input type="number" name="" id="InputDay" min="1" max="31" placeholder="Dzień"> dzień
+    <input id="InputRok" type="number" min="1900" max="2023" placeholder="Rok"> rok
+    <br><br>
+
+    <button type="button" id="SubmitButton">Generuj numer PESEL</button>
+
+    <script>
+        document.getElementById("SubmitButton").onclick = function generatePESEL() {
+            const Mliczby = [1, 3, 5, 7, 9];
+            const Kliczby = [0, 2, 4, 6, 8];
+
+            const plec = document.querySelector('input[name="plec"]:checked');
+            const gender = plec ? plec.value : null;
+
+            const rok = document.getElementById("InputRok").value;
+            const msc = document.getElementById("InputMonth").value.padStart(2, '0');
+            const day = document.getElementById("InputDay").value.padStart(2, '0');
+
+            let randomElement, liczba3, liczba4;
+
+            if (gender === "M") {
+                randomElement = Mliczby[Math.floor(Math.random() * Mliczby.length)];
+            } else if (gender === "K") {
+                randomElement = Kliczby[Math.floor(Math.random() * Kliczby.length)];
+            } else {
+                document.write("Nie wybrano płci");
+                return;
+            }
+
+            if (rok >= 2000 && rok <= 2099) {
+                liczba3 = rok.toString().charAt(2);
+                liczba4 = rok.toString().charAt(3);
+            } else if ((rok >= 1900 && rok <= 1999)){
+                liczba3 = rok.toString().charAt(2);
+                liczba4 = rok.toString().charAt(3);
+            }
+
+            const liczbalosowa = String(Math.floor(Math.random() * 999)).padStart(3, '0');
+            const liczbakontrolna = String(Math.floor(Math.random() * 10));
+
+            const pesel = liczba3 + liczba4 + msc + day + liczbalosowa + randomElement + liczbakontrolna;
+
+            document.write("Twój numer PESEL: " + pesel);
+        }
+    </script>
+</body>
+</html>
